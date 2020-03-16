@@ -1,0 +1,15 @@
+<h1>Boting around</h1>
+
+<div class="cards">
+    <% list[0].forEach((art) => { %>
+       
+        <div class="card">
+                   <img src= <%= art.slika%> alt="slika">  
+                    <label>Title: <%= art.title%></label>
+                    <label>Tip: <%= art.tip%> </label>
+                    <label>Cijena: <%= art.cijena%> </label>
+        </div>
+        
+        <%});%>
+    
+</div>
