@@ -8,7 +8,7 @@
     </button>
 
 
-    <button type="button" class="btn btn-outline-info">Postavi Podatke</button>
+    <button type="button" class="btn btn-outline-info" id="TestData">Postavi Podatke</button>
   </div>
 
   <div class="table" id="table">
@@ -18,14 +18,21 @@
 </div>
 
 <script>
-  
+  var filter = false;
   $('#GetData').click(function(){
     console.log('button clicked');
     $.ajax({url: '/artikli', success:function(res){
         console.log('server response is', res);
+        filter = false;
         location.reload();
     }});
-});
+  });
+
+  $('#TestData').click(function(){
+      console.log("Table data", TableData);
+    // console.log("List from script", list);
+      console.log("Filter", filter);
+    });
 
 
 </script>

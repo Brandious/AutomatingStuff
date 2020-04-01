@@ -1,4 +1,4 @@
-<table class="table table-striped thead-primary table-bordered">
+<table class="table table-striped thead-primary table-bordered" id="Tabela">
     <thead>
       <tr>
         <th scope="col">Izaberi</th>
@@ -15,12 +15,12 @@
           let i = 0
           list[list.length-1].forEach((art) => { %>
             <tr>
-              <td> <input type="checkbox" aria-label="Checkbox for following text input"> </td>
+              <td> <input type="checkbox" aria-label="checkBox" id="checkbox"> </td>
               <td><%= art.title%></td>
               <td><%= art.tip%> </td>
               <td><%= art.cijena%> </td>
               <td><input type="text"></td>
-              <td><img src= <%= art.slika%> alt="slika"></td> 
+              <td><img src= <%= art.slika%> alt="slika" id="image"></td> 
       
             </tr>
 
@@ -31,3 +31,5 @@
             <% } %>
     </tbody>
   </table>
+
+

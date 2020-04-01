@@ -1,17 +1,91 @@
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Provjeri Podatke</h5>
-        </div>
-        <div class="modal-body">
-            <%- include ('../partials/modalTable',{list}) %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalLong"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Provjeri Podatke</h5>
+      </div>
+      <div class="modal-body">
+        <%- include ('../partials/modalTable',{list}) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="Save"
+          data-dismiss="modal"
+        >
+          Save changes
+        </button>
       </div>
     </div>
   </div>
+</div>
+
+<script>
+  var TableData = new Array();
+  $("#Save").click(function() {
+    $("#Tabela tr").each(function(row, tr) {
+      if (
+        $(tr)
+          .find("#checkbox")
+          .is(":checked")
+      ) {
+        console.log("here");
+        TableData[row - 1] = {
+          title: $(tr)
+            .find("td:eq(1)")
+            .text(),
+          tip: $(tr)
+            .find("td:eq(2)")
+            .text(),
+          cijena: $(tr)
+            .find("td:eq(3)")
+            .text(),
+          novaCijena:
+            $(tr)
+              .find("td:eq(4)")
+              .text() || 0,
+          slika: $(tr)
+            .find("#image")
+            .attr("src")
+        };
+      }
+    });
+    filter = true;
+    console.log(TableData);
+    let table = JSON.stringify(TableData);
+    
+    $.ajax({
+      url: "/artikli",
+      type: "POST",
+      cache: false,
+      data: { table },
+      success: function(data) {
+        console.log(data);
+        $.ajax({
+          url: "/",
+          success: function(res) {
+            console.log("server response is", res);
+            filter = false;
+            location.reload();
+          }
+        });
+        alert("Success!");
+      },
+      error: function(jqXHR, textStatus, err) {
+        alert("text status " + textStatus + ", err " + err);
+      }
+    });
+  });
+</script>
