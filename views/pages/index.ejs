@@ -1,0 +1,31 @@
+<div class="home">
+  <div class="buttonGroup">
+    <button type="submit" class="btn btn-outline-info" id="GetData">Povuci Podatke</button>
+
+    <%- include ('../partials/modal',{list}) %>
+    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModalLong">
+     Provjeri Podatke
+    </button>
+
+
+    <button type="button" class="btn btn-outline-info">Postavi Podatke</button>
+  </div>
+
+  <div class="table" id="table">
+    <%- console.log("List from ejs: ", list); %>
+    <%- include ('../partials/table',{list}) %>
+  </div>
+</div>
+
+<script>
+  
+  $('#GetData').click(function(){
+    console.log('button clicked');
+    $.ajax({url: '/artikli', success:function(res){
+        console.log('server response is', res);
+        location.reload();
+    }});
+});
+
+
+</script>

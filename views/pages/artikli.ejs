@@ -1,0 +1,16 @@
+<div class="cards">
+    <% if(list.length !== 0) {list[0].forEach((art) => { %>
+  
+    <div class="card">
+      <img src= <%= art.slika%> alt="slika">
+      <label>Title: <%= art.title%></label>
+      <label>Tip: <%= art.tip%> </label>
+      <label>Cijena: <%= art.cijena%> </label>
+    </div>
+  
+    <% })} else {%>
+        <h2>Loading...</h2>
+    <% } %>
+</div>
+  
+
