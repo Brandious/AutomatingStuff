@@ -1,38 +1,72 @@
 <div class="home">
   <div class="buttonGroup">
-    <button type="submit" class="btn btn-outline-info" id="GetData">Povuci Podatke</button>
-
-    <%- include ('../partials/modal',{list}) %>
-    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModalLong">
-     Provjeri Podatke
+    <button type="submit" class="btn btn-outline-info" id="GetData">
+      Povuci Podatke
     </button>
+ 
+   
+ 
+    <button
+      type="button"
+      class="btn btn-outline-info"
+      data-toggle="modal"
+      data-target="#exampleModalLong0"
+      id="FilterData"
+    >
+      Provjeri Podatke
+    </button>
+    <%- include ('../partials/modal',{list}) %>
 
+    <button  type="button"
+    class="btn btn-outline-info"
+    data-toggle="modal"
+    data-target="#exampleModalLong1"
+    id = "SendData"
+    >
+      Postavi Podatke
+    </button>
+    <%- include ('../partials/modal1',{returnList}) %>
 
-    <button type="button" class="btn btn-outline-info" id="TestData">Postavi Podatke</button>
   </div>
 
   <div class="table" id="table">
-    <%- console.log("List from ejs: ", list); %>
-    <%- include ('../partials/table',{list}) %>
+   <%- include
+    ('../partials/table',{list}) %>
   </div>
 </div>
 
 <script>
-  var filter = false;
-  $('#GetData').click(function(){
-    console.log('button clicked');
-    $.ajax({url: '/artikli', success:function(res){
-        console.log('server response is', res);
-        filter = false;
+  $("#GetData").click(function() {
+    console.log("button clicked");
+    $.ajax({
+      url: "/artikli",
+      success: function(res) {
+        console.log("server response is", res);
         location.reload();
-    }});
+      }
+    });
   });
 
-  $('#TestData').click(function(){
-      console.log("Table data", TableData);
-    // console.log("List from script", list);
-      console.log("Filter", filter);
-    });
+  $("#FilterData").click(function(){
+    console.log("FilterData");
+  })
 
+  $("#SendData").click(function() {
+     let table = JSON.stringify(TableData);   
+     console.log("SendData", table);
+    
+    $.ajax({
+      url: "/automate",
+      type: "POST",
+      cache: false,
+      success: function(data) {
+        console.log(data);
+       
+      },
+      error: function(jqXHR, textStatus, err) {
+        alert("text status " + textStatus + ", err " + err);
+      }
+    });
+  });
 
 </script>
