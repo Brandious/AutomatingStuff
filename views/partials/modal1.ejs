@@ -13,47 +13,41 @@
         <h5 class="modal-title" id="exampleModalLongTitle">Provjeri Podatke</h5>
       </div>
       <div class="modal-body">
+        <table
+          class="table table-striped thead-primary table-bordered"
+          id="Tabela"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Izaberi</th>
+              <th scope="col">Name</th>
+              <th scope="col">Tip</th>
+              <th scope="col">Cijena</th>
+              <th scope="col">Nova cijena</th>
+              <th scope="col">Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(returnList !== 0) { 
+              let i = 0
+             returnList.forEach( (art) => {
+            if(art !== null ) { %>
+            <tr>
+              <td>
+                <input type="checkbox" aria-label="checkBox" id="checkbox" />
+              </td>
+              <td><%= art.title%></td>
+              <td><%= art.tip%></td>
+              <td><%= art.cijena%></td>
+              <td><%= art.novaCijena%></td>
+              <td><img src= <%= art.slika%> alt="slika" id="image"></td>
+            </tr>
 
-        <table class="table table-striped thead-primary table-bordered" id="Tabela">
-            <thead>
-              <tr>
-                <th scope="col">Izaberi</th>
-                <th scope="col">Name</th>
-                <th scope="col">Tip</th>
-                <th scope="col">Cijena</th>
-                <th scope="col">Nova cijena</th>
-                <th scope="col">Image</th>
-              </tr>
-            </thead>
-            <tbody>
-                <% if(returnList !== 0) {
-                  
-                  let i = 0
-                  returnList.forEach(
-                    (art) => { if(art !== null ) { %>
-                    <tr>
-                      <td> <input type="checkbox" aria-label="checkBox" id="checkbox"> </td>
-                      <td><%= art.title%></td>
-                      <td><%= art.tip%> </td>
-                      <td><%= art.cijena%> </td>
-                      <td><%= art.novaCijena%></td>
-                      <td><img src= <%= art.slika%> alt="slika" id="image"></td> 
-                    </tr>
-        
-                  <% i++ %>
-        
-                    <% }})} else { %>
-                        <h2>Loading...</h2>
-                    <% } %>
-            </tbody>
-          </table>
-        
-        
-        
-      
-      
-
-     
+            <% i++ %> <% }})} else { %>
+            <h2>Loading...</h2>
+            <% } %>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -71,63 +65,3 @@
     </div>
   </div>
 </div>
-
-
-<script>
-
-var TableData = new Array();
-  $("#Save").click(function() {
-    $("#Tabela tr").each(function(row, tr) {
-      if (
-        $(tr)
-          .find("#checkbox")
-          .is(":checked")
-      ) {
-        TableData[row - 1] = {
-          title: $(tr)
-            .find("td:eq(1)")
-            .text(),
-          tip: $(tr)
-            .find("td:eq(2)")
-            .text(),
-          cijena: $(tr)
-            .find("td:eq(3)")
-            .text(),
-          novaCijena:
-            $(tr)
-              .find("td:eq(4)")
-              .text() || 0,
-          slika: $(tr)
-            .find("#image")
-            .attr("src")
-        };
-      }
-    });
-    let table = JSON.stringify(TableData);    
-    $.ajax({
-      url: "/artikli",
-      type: "POST",
-      cache: false,
-      data: { table },
-      success: function(data) {
-        console.log(data);
-        $.ajax({
-          url: "/",
-          success: function(res) {
-            console.log("server response is", res);
-            filter = false;
-            location.reload();
-          }
-        });
-        alert("Success!");
-      },
-      error: function(jqXHR, textStatus, err) {
-        alert("text status " + textStatus + ", err " + err);
-      }
-    });
-  });
-
-
- 
-
-</script>
